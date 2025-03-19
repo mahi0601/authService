@@ -77,6 +77,8 @@ AUTH_PASSWORD_VALIDATORS = [{
 }, {
     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
 }]
+import os
+DRIVE_ACCESS_TOKEN = os.getenv("DRIVE_ACCESS_TOKEN")
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
