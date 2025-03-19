@@ -70,7 +70,7 @@ def download_file_from_drive(file_id, token):
 
         return {
             "status_code": response.status_code,
-            "content": response.content.decode('utf-8') if response.status_code == 200 else None
+            "content": response.content if response.status_code == 200 else None  # Return raw content
         }
     except Exception as e:
         return {"error": str(e)}
