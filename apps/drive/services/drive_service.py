@@ -1,6 +1,10 @@
 import requests
 import json
 
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+from django.conf import settings
+
 def upload_file_to_drive(file_obj, token):
     headers = {"Authorization": f"Bearer {token}"}
     metadata = {'name': file_obj.name}
@@ -23,3 +27,13 @@ def download_file_from_drive(file_id, token):
         'status_code': response.status_code,
         'content': response.content.decode('utf-8')
     }
+
+# apps/drive/services/drive_service.py
+
+
+def list_files():
+    creds = Credentials(token=settings.DRIVE_ACCESS_TOKEN)  # or pass dynamic token from user
+    service = build('drive', 'v3', credentials=creds)
+    results = service.files().list(pageSize=10).execute()
+    files = results.get('files', [])
+    return files
