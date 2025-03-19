@@ -6,11 +6,19 @@ from googleapiclient.discovery import build
 from django.conf import settings
 
 def list_files():
-    creds = Credentials(token=settings.DRIVE_ACCESS_TOKEN)
+    creds = Credentials(
+        token=settings.DRIVE_ACCESS_TOKEN,
+        refresh_token=settings.GOOGLE_REFRESH_TOKEN,
+        token_uri=settings.TOKEN_URI,
+        client_id=settings.GOOGLE_CLIENT_ID,
+        client_secret=settings.GOOGLE_CLIENT_SECRET,
+        scopes=["https://www.googleapis.com/auth/drive"]
+    )
+    creds.refresh(Request())  # auto-refresh if expired
     service = build('drive', 'v3', credentials=creds)
     results = service.files().list(pageSize=10).execute()
-    files = results.get('files', [])
-    return files
+    return results.get('files', [])
+
 
 
 def upload_file_to_drive(file_obj, token):
