@@ -1,7 +1,7 @@
 import requests
 import json
-# apps/drive/services/drive_service.py
 from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from django.conf import settings
 
@@ -14,10 +14,17 @@ def list_files():
         client_secret=settings.GOOGLE_CLIENT_SECRET,
         scopes=["https://www.googleapis.com/auth/drive"]
     )
-    creds.refresh(Request())  # auto-refresh if expired
+    
+    # Auto-refresh access token
+    creds.refresh(Request())
+
+    # Create Drive service
     service = build('drive', 'v3', credentials=creds)
+
+    # Fetch files
     results = service.files().list(pageSize=10).execute()
     return results.get('files', [])
+
 
 
 
