@@ -1,0 +1,10 @@
+Django>=4.2
+djangorestframework
+python-dotenv
+google-auth
+google-auth-oauthlib
+google-api-python-client
+channels
+channels-redis
+daphne
+requests
