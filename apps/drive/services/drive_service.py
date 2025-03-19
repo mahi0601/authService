@@ -18,10 +18,10 @@ def list_files():
             client_id=settings.GOOGLE_CLIENT_ID,
             client_secret=settings.GOOGLE_CLIENT_SECRET,
             scopes=[
-                "https://www.googleapis.com/auth/drive",
-                "https://www.googleapis.com/auth/userinfo.email",
                 "https://www.googleapis.com/auth/userinfo.profile",
-                "openid"
+                "openid",
+                "https://www.googleapis.com/auth/drive",
+                "https://www.googleapis.com/auth/userinfo.email"
             ]
         )
         # Refresh access token
