@@ -6,13 +6,7 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from django.conf import settings
 
-# Define Google OAuth Scopes as a list
-SCOPES = [
-    'https://www.googleapis.com/auth/drive',
-    'https://www.googleapis.com/auth/userinfo.profile',
-    'openid',
-    'https://www.googleapis.com/auth/userinfo.email',
-]
+
 
 def list_files():
     try:
@@ -23,7 +17,12 @@ def list_files():
             token_uri=settings.TOKEN_URI,
             client_id=settings.GOOGLE_CLIENT_ID,
             client_secret=settings.GOOGLE_CLIENT_SECRET,
-            scopes=SCOPES
+            scopes=[
+                "https://www.googleapis.com/auth/drive",
+                "https://www.googleapis.com/auth/userinfo.email",
+                "https://www.googleapis.com/auth/userinfo.profile",
+                "openid"
+            ]
         )
         # Refresh access token
         creds.refresh(Request())
