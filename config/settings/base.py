@@ -78,9 +78,11 @@ AUTH_PASSWORD_VALIDATORS = [{
     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
 }]
 import os
-GOOGLE_REFRESH_TOKEN = os.getenv("GOOGLE_REFRESH_TOKEN")
-DRIVE_ACCESS_TOKEN = os.getenv("DRIVE_ACCESS_TOKEN")
-TOKEN_URI = os.getenv("TOKEN_URI", "https://oauth2.googleapis.com/token")
+
+GOOGLE_REFRESH_TOKEN = os.getenv('GOOGLE_REFRESH_TOKEN')
+DRIVE_ACCESS_TOKEN = os.getenv('DRIVE_ACCESS_TOKEN')
+TOKEN_URI = os.getenv('TOKEN_URI', 'https://oauth2.googleapis.com/token')
+
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'

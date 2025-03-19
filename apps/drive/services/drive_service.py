@@ -14,16 +14,15 @@ def list_files():
         client_secret=settings.GOOGLE_CLIENT_SECRET,
         scopes=["https://www.googleapis.com/auth/drive"]
     )
-    
-    # Auto-refresh access token
-    creds.refresh(Request())
 
-    # Create Drive service
+    # Refresh token if expired
+    if creds.expired and creds.refresh_token:
+        creds.refresh(Request())
+
     service = build('drive', 'v3', credentials=creds)
-
-    # Fetch files
     results = service.files().list(pageSize=10).execute()
     return results.get('files', [])
+
 
 
 
