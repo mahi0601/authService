@@ -6,34 +6,38 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from django.conf import settings
 
-
+SCOPES = [
+    "https://www.googleapis.com/auth/drive",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid"
+]
 
 def list_files():
     try:
-        # Create Credentials object using refresh token
+        # Build the credentials correctly
         creds = Credentials(
             token=None,
             refresh_token=settings.GOOGLE_REFRESH_TOKEN,
             token_uri=settings.TOKEN_URI,
             client_id=settings.GOOGLE_CLIENT_ID,
             client_secret=settings.GOOGLE_CLIENT_SECRET,
-            scopes=[
-                "https://www.googleapis.com/auth/userinfo.profile",
-                "openid",
-                "https://www.googleapis.com/auth/drive",
-                "https://www.googleapis.com/auth/userinfo.email"
-            ]
+            scopes=SCOPES
         )
-        # Refresh access token
+
+        # Refresh token
         creds.refresh(Request())
 
-        # Build Drive service
-        service = build('drive', 'v3', credentials=creds)
-        results = service.files().list(pageSize=10).execute()
-        return results.get('files', [])
+        # Build Drive API service
+        service = build("drive", "v3", credentials=creds)
 
+        # Call Drive API
+        results = service.files().list(pageSize=10).execute()
+        return results.get("files", [])
+    
     except Exception as e:
         return {"error": str(e)}
+
 
 def upload_file_to_drive(file_obj, token):
     try:
